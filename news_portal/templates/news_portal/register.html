@@ -1,0 +1,17 @@
+{% extends 'news_portal/base_news.html' %}
+{% block title %}
+  Posts list
+{% endblock %}
+
+{% block content %}
+  {% if form.errors %}
+    {% for error in form.errors %}
+      <p>{{ error }}</p>
+    {% endfor %}
+  {% endif %}
+  <form class="" action="{% url 'register_url' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" name="send">Регистрация</button>
+  </form>
+{% endblock %}
