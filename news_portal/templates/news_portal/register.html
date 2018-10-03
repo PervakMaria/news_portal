@@ -4,6 +4,9 @@
 {% endblock %}
 
 {% block content %}
+
+  {{ form.errors }}
+
   {% if form.errors %}
     {% for error in form.errors %}
       <p>{{ error }}</p>
