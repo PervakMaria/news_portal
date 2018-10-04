@@ -3,18 +3,26 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 
+from .models import *
+
 
 # from django.shortcuts import get_object_or_404
 # user = get_object_or_404(User, pk=user_id)
 
 
 class RegisterForm(forms.Form):
-    userlastname = forms.CharField(label=u'Фамилия', required=True)
-    username = forms.CharField(label=u'Имя', required=True)
-    email = forms.EmailField(label=u'Почта', required=True)
-    phone = forms.CharField(label=u'Телефон')
-    password = forms.CharField(label=u'Пароль', widget=forms.PasswordInput(), required=True)
-    password1 = forms.CharField(label=u'Подтвердите пароль', widget=forms.PasswordInput(), required=True)
+    userlastname = forms.CharField(label=u'Фамилия', required=True, widget=forms.TextInput(attrs={'class': "form-control"}),)
+    username = forms.CharField(label=u'Имя', required=True, widget=forms.TextInput(attrs={'class': "form-control"}),)
+    email = forms.EmailField(
+        label=u'Почта',
+        required=True,
+        widget=forms.TextInput(attrs={'class': "form-control"}),
+        error_messages = {  'required' : "Введите почту",
+                            'invalid'  : "Почтовый адрес некорректен"}
+    )
+    phone = forms.CharField(label=u'Телефон', widget=forms.TextInput(attrs={'class': "form-control"}),)
+    password = forms.CharField(label=u'Пароль', widget=forms.PasswordInput(attrs={'class': "form-control"}), required=True)
+    password1 = forms.CharField(label=u'Подтвердите пароль', widget=forms.PasswordInput(attrs={'class': "form-control"}), required=True)
 
 
     def clean_email(self):
@@ -52,3 +60,8 @@ def register_user(request):
         form = RegisterForm()
 
     return render(request, 'news_portal/register.html', context={'form': form})
+
+
+def posts_list(request):
+    posts = Post.objects.all()
+    return render(request, 'news_portal/news.html', context={'news': posts})

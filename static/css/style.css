@@ -1,0 +1,12 @@
+.errorlist li{
+    list-style: none;
+    font-size: 13px;
+    color: #721c29;
+}
+.errorlist.nonfield{
+  margin: 20px 0;
+  padding: 20px;
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
