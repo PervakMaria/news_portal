@@ -11,7 +11,6 @@ def gen_slug(s):
 
 class Post(models.Model):
     title = models.CharField(max_length=150, db_index=True)
-    author = models.CharField(max_length=150, db_index=True)
     slug = models.SlugField(max_length=150, blank=True, unique=True)
     body = models.TextField(blank=True, db_index=True)
     tags = models.ManyToManyField('Tag', blank=True, related_name = 'posts')
