@@ -1,0 +1,12 @@
+{% extends 'news_portal/base_news.html' %}
+{% block title %}
+{{ single_news.title }} - {{ block.super }}
+{% endblock %}
+
+{% block content %}
+  <div class="col-sm-12">
+    <h1>{{ single_news.title }}</h1>
+    <p>{{ single_news.body }}</p>
+
+  </div>
+{% endblock %}

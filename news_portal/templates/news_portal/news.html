@@ -11,7 +11,7 @@
       <div class="card-body">
         <h6 class="card-subtitle mb-2 text-muted">{{ single_news.date_pub }}</h6>
         <p class="card-text">{{ single_news.body }}</p>
-        <a href="#" class="card-link">Подробнее</a>
+        <a href="{{ single_news.get_absolute_url }}" class="card-link">Подробнее</a>
       </div>
     </div>
   </div>

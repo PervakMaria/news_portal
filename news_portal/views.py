@@ -63,5 +63,17 @@ def register_user(request):
 
 
 def posts_list(request):
-    posts = Post.objects.all()
-    return render(request, 'news_portal/news.html', context={'news': posts})
+    news = Post.objects.all()
+    return render(request, 'news_portal/news.html', context={'news': news})
+
+def post_detail(request, slug):
+    single_news = Post.objects.get(slug__iexact=slug)
+    return render(request, 'news_portal/news_detail.html', context={"single_news": single_news})
+
+def categories_list(request):
+    categories = Tag.objects.all()
+    return render(request, 'news_portal/categories_list.html', context={"categories": categories})
+
+def category_detail(request, slug):
+    category = Tag.objects.get(slug__iexact=slug)
+    return render(request, 'news_portal/category_detail.html', context={"category": category})

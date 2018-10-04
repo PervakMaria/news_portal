@@ -17,7 +17,7 @@ class Post(models.Model):
     date_pub = models.DateTimeField(auto_now_add=True)
 
     def get_absolute_url(self):
-        return reverse('post_detail_url', kwargs={'slug': self.slug})
+        return reverse('news_detail_url', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -33,7 +33,7 @@ class Tag(models.Model):
     slug = models.SlugField(max_length=150, unique=True)
 
     def get_absolute_url(self):
-        return reverse('tag_detail_url', kwargs={'slug': self.slug})
+        return reverse('category_detail_url', kwargs={'slug': self.slug})
 
     def __str__(self):
         return '{}'.format(self.title)

@@ -1,0 +1,28 @@
+{% extends 'news_portal/base_news.html' %}
+{% block title %}
+{{ category.title }} - {{ block.super }}
+{% endblock %}
+
+{% block content %}
+  <div class="col-sm-12">
+    <h1>Новости категории "{{ category.title|title }}":</h1>
+      {% for single_news in category.posts.all %}
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-header">{{ single_news.title }}</div>
+            <div class="card-body">
+              <h6 class="card-subtitle mb-2 text-muted">{{ single_news.date_pub }}</h6>
+              <p class="card-text">{{ single_news.body }}</p>
+              <a href="{{ single_news.get_absolute_url }}" class="card-link">Подробнее</a>
+            </div>
+            <div class="card-footer text-muted">
+              {% for cat in single_news.tags.all %}
+                <a href="{{ cat.get_absolute_url }}">{{ cat.title }}</a>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+
+  </div>
+{% endblock %}
