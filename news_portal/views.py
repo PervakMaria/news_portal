@@ -81,8 +81,8 @@ class CategoryCreate(View):
         bound_form = CategoryForm(request.POST)
 
         if bound_form.is_valid():
-            new_tag = bound_form.save()
-            return redirect(new_tag)
+            new_category = bound_form.save()
+            return redirect(new_category)
         return render(request, 'news_portal/category_create.html', context={"form": bound_form})
 
 
