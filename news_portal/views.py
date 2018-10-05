@@ -1,9 +1,11 @@
 from django import forms
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
+from django.views.generic import View
 
 from .models import *
+from .forms import *
 
 
 # from django.shortcuts import get_object_or_404
@@ -20,9 +22,9 @@ class RegisterForm(forms.Form):
         error_messages = {  'required' : "Введите почту",
                             'invalid'  : "Почтовый адрес некорректен"}
     )
-    phone = forms.CharField(label=u'Телефон', widget=forms.TextInput(attrs={'class': "form-control"}),)
-    password = forms.CharField(label=u'Пароль', widget=forms.PasswordInput(attrs={'class': "form-control"}), required=True)
-    password1 = forms.CharField(label=u'Подтвердите пароль', widget=forms.PasswordInput(attrs={'class': "form-control"}), required=True)
+    phone = forms.CharField(label='Телефон', widget=forms.TextInput(attrs={'class': "form-control"}),)
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': "form-control"}), required=True)
+    password1 = forms.CharField(label='Подтвердите пароль', widget=forms.PasswordInput(attrs={'class': "form-control"}), required=True)
 
 
     def clean_email(self):
@@ -38,7 +40,7 @@ class RegisterForm(forms.Form):
         password1 = self.cleaned_data.get('password1')
 
         if not password == password1:
-            raise forms.ValidationError(u'Пароли не совпадают')
+            raise forms.ValidationError('Пароли не совпадают')
         return password
 
 
@@ -69,6 +71,20 @@ def posts_list(request):
 def post_detail(request, slug):
     single_news = Post.objects.get(slug__iexact=slug)
     return render(request, 'news_portal/news_detail.html', context={"single_news": single_news})
+
+class CategoryCreate(View):
+    def get(self, request):
+        form = CategoryForm()
+        return render(request, 'news_portal/category_create.html', context={"form": form})
+
+    def post(self, request):
+        bound_form = CategoryForm(request.POST)
+
+        if bound_form.is_valid():
+            new_tag = bound_form.save()
+            return redirect(new_tag)
+        return render(request, 'news_portal/category_create.html', context={"form": bound_form})
+
 
 def categories_list(request):
     categories = Tag.objects.all()

@@ -1,0 +1,24 @@
+{% extends 'news_portal/base_news.html' %}
+{% block title %}
+  Создать новость - {{ block.super }}
+{% endblock %}
+
+{% block content %}
+  <div class="col-sm-12">
+    <form class="" action="{% url 'category_create_url' %}" method="post">
+      {% csrf_token %}
+      {% for field in form %}
+        {% if field.errors %}
+          <div class="alert alert-danger">
+            {{ field.errors }}
+          </div>
+        {% endif %}
+        <div class="form-group">
+          {{ field.label }}
+          {{ field }}
+        </div>
+      {% endfor %}
+      <button class="btn btn-dark" type="submit">Создать</button>
+    </form>
+  </div>
+{% endblock %}
