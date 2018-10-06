@@ -97,6 +97,21 @@ class CategoryCreate(View):
             return redirect(new_category)
         return render(request, 'news_portal/category_create.html', context={"form": bound_form})
 
+class CategoryUpdate(View):
+    def get(self, request, slug):
+        category = Tag.objects.get(slug__iexact=slug)
+        bound_form = CategoryForm(instance=category)
+        return render(request, 'news_portal/category_update.html', context={"form": bound_form, 'category': category})
+
+    def post(self, request, slug):
+        category = Tag.objects.get(slug__iexact=slug)
+        bound_form = CategoryForm(request.POST, instance=category)
+
+        if bound_form.is_valid():
+            new_category = bound_form.save()
+            return redirect(new_category)
+        return render(request, 'news_portal/category_update.html', context={"form": bound_form, 'category': category})
+
 
 def categories_list(request):
     categories = Tag.objects.all()
