@@ -29,10 +29,10 @@ class CategoryForm(forms.ModelForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'body', 'tags']
+        fields = ['title', 'slug', 'body', 'tags']
         labels = {
             "title": "Заголовок",
-            # "slug": "Слаг",
+            "slug": "Слаг",
             "body": "Текст новости",
             "tags": "Категории"
 
@@ -40,7 +40,7 @@ class PostForm(forms.ModelForm):
 
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
-            # 'slug': forms.TextInput(attrs={'class': 'form-control'}),
+            'slug': forms.TextInput(attrs={'class': 'form-control'}),
             'body': forms.Textarea(attrs={'class': 'form-control'}),
             'tags': forms.SelectMultiple(attrs={'class': 'form-control'})
         }
