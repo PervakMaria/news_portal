@@ -26,6 +26,34 @@ class CategoryForm(forms.ModelForm):
             raise ValidationError('Значение поля слаг должно быть уникальным')
         return new_slug
 
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'body', 'tags']
+        labels = {
+            "title": "Заголовок",
+            # "slug": "Слаг",
+            "body": "Текст новости",
+            "tags": "Категории"
+
+        }
+
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            # 'slug': forms.TextInput(attrs={'class': 'form-control'}),
+            'body': forms.Textarea(attrs={'class': 'form-control'}),
+            'tags': forms.SelectMultiple(attrs={'class': 'form-control'})
+        }
+
+        def clean_slug(self):
+            new_slug = self.cleaned_data['slug'].lower()
+
+            if new_slug == 'create':
+                raise ValidationError('Недопустимое значение')
+            return new_slug
+
+
+
 # class CategoryForm(forms.Form):
 #     title = forms.CharField(max_length=50, label='Заголовок', widget=forms.TextInput(attrs={'class': "form-control"}),)
 #     slug = forms.CharField(max_length=50, label='Слаг', widget=forms.TextInput(attrs={'class': "form-control"}),)
