@@ -4,6 +4,10 @@
 {% endblock %}
 
 {% block content %}
+  <div class="col-sm-12">
+    <a class="float-right" href="{% url 'logout'%}?next=/">Выйти</a>
+    <h2 class="mb-5">Добро пожаловать {{ user.get_username }}!</h2>
+  </div>
   {% for single_news in news %}
   <div class="col-sm-4">
     <div class="card">

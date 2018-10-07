@@ -1,51 +1,28 @@
 from django import forms
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
+# from django.http import HttpResponseRedirect
 from django.views.generic import View
+from django.contrib.auth import authenticate, login, logout
+
 
 from .models import *
 from .forms import *
 
 
-# from django.shortcuts import get_object_or_404
-# user = get_object_or_404(User, pk=user_id)
-
-
-class RegisterForm(forms.Form):
-    userlastname = forms.CharField(label=u'Фамилия', required=True, widget=forms.TextInput(attrs={'class': "form-control"}),)
-    username = forms.CharField(label=u'Имя', required=True, widget=forms.TextInput(attrs={'class': "form-control"}),)
-    email = forms.EmailField(
-        label=u'Почта',
-        required=True,
-        widget=forms.TextInput(attrs={'class': "form-control"}),
-        error_messages = {  'required' : "Введите почту",
-                            'invalid'  : "Почтовый адрес некорректен"}
-    )
-    phone = forms.CharField(label='Телефон', widget=forms.TextInput(attrs={'class': "form-control"}),)
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': "form-control"}), required=True)
-    password1 = forms.CharField(label='Подтвердите пароль', widget=forms.PasswordInput(attrs={'class': "form-control"}), required=True)
-
-
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("Пользователь с такой почтой уже существует")
-        return email
-
-
-    def clean(self):
-        password = self.cleaned_data.get('password')
-        password1 = self.cleaned_data.get('password1')
-
-        if not password == password1:
-            raise forms.ValidationError('Пароли не совпадают')
-        return password
-
-
 def index(request):
-    return render(request, 'news_portal/index.html')
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('/news')
+    else:
+        form = LoginForm()
+
+    return render(request, 'news_portal/index.html', context={'form': form})
 
 
 def register_user(request):
@@ -56,7 +33,8 @@ def register_user(request):
             user.first_name = request.POST.get('username', '')
             user.last_name = request.POST.get('userlastname', '')
             user.save()
-            return HttpResponseRedirect('/accounts/login/')
+            logout(request)
+            return redirect('index')
         # print(request.POST)
     else:
         form = RegisterForm()
