@@ -6,16 +6,16 @@
 {% block content %}
   <div class="col-sm-12">
     <a class="float-right" href="{% url 'logout'%}?next=/">Выйти</a>
-    <h2 class="mb-5">Добро пожаловать {{ user.get_username }}!</h2>
+    <h2 class="mb-5">Добро пожаловать, {{ user.get_full_name }}!</h2>
   </div>
   {% for single_news in news %}
   <div class="col-sm-4">
     <div class="card">
       <div class="card-header">{{ single_news.title }}</div>
       <div class="card-body">
-        <h6 class="card-subtitle mb-2 text-muted">{{ single_news.date_pub }}</h6>
+        <h6 class="card-subtitle mb-2 text-muted">{{ single_news.date_pub|date:"d.m.Y" }}</h6>
         <p class="card-text">{{ single_news.body }}</p>
-        <a href="{{ single_news.get_absolute_url }}" class="card-link">Подробнее</a>
+          <a href="{{ single_news.get_absolute_url }}" class="card-link">Подробнее</a>
       </div>
       <div class="card-footer text-muted">
         {% for cat in single_news.tags.all %}

@@ -1,10 +1,18 @@
 {% extends 'news_portal/base_news.html' %}
 {% block title %}
-{{ single_news.title }} - {{ block.super }}
+  {{ single_news.title }} - {{ block.super }}
 {% endblock %}
 
 {% block content %}
   <div class="col-sm-12">
+    <div class="news-header clearfix mb-5">
+      {% if request.user.is_authenticated and request.user.is_staff %}
+        <a class="float-right btn btn-dark" href="{{ single_news.get_update_url }}">Редактировать</a>
+      {% endif %}
+      <div class="mr-5">
+        {{ single_news.date_pub|date:"d.m.Y" }}
+      </div>
+    </div>
     <h1>{{ single_news.title }}</h1>
     <p>{{ single_news.body }}</p>
 
