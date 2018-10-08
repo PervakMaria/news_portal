@@ -80,7 +80,7 @@ class PostForm(forms.ModelForm):
         fields = ['title', 'slug', 'body', 'tags']
         labels = {
             "title": "Заголовок",
-            "slug": "Слаг",
+            "slug": "Слаг (необязательно к заполнению)",
             "body": "Текст новости",
             "tags": "Категории"
 

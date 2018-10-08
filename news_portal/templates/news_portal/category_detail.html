@@ -6,6 +6,9 @@
 {% block content %}
 
   <div class="col-sm-12">
+    {% if request.user.is_authenticated and request.user.is_staff %}
+      <a class="float-right btn btn-dark" href="{{ category.get_update_url }}">Редактировать</a>
+    {% endif %}
     <h1>Новости категории "{{ category.title|title }}":</h1>
   </div>
   {% for single_news in category.posts.all %}

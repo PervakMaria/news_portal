@@ -15,7 +15,7 @@
     <header style="background: #343a40;">
       <div class="container">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <a class="navbar-brand text-center" href="{% url 'index' %}">Новостной<br> портал</a>
+          <a class="navbar-brand text-center" href="{% url 'index' %}"><img class="logo" src="{% static 'img/Logo.png' %}" alt=""></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -29,8 +29,23 @@
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'news' %}">Новости</a>
               </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="{% url 'categories_list_url' %}" role="button" aria-haspopup="true" aria-expanded="false">Категории</a>
+                 <div class="dropdown-menu">
+                   <a class="dropdown-item" href="/categories/sport/">Спорт</a>
+                   <a class="dropdown-item" href="/categories/art/">Искусство</a>
+                   <a class="dropdown-item" href="/categories/politics/">Политика</a>
+                   <a class="dropdown-item" href="/categories/it/">IT</a>
+                 </div>
+
+              </li>
+              {% endif %}
+              {% if request.user.is_authenticated and request.user.is_staff %}
               <li class="nav-item">
-                <a class="nav-link" href="{% url 'categories_list_url' %}">Категории</a>
+                <a class="nav-link" href="{% url 'news_create_url' %}">Добавить новость</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'category_create_url' %}">Добавить категорию</a>
               </li>
               {% endif %}
             </ul>
